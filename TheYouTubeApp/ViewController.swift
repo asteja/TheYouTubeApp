@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
     
@@ -22,7 +21,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchController()
-        getTopVideosFromYoutube()
+//        getTopVideosFromYoutube()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -43,21 +42,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         let videoDetails = arrVideos[indexPath.row] as! [String: Any]
         let videoImageView = cell.viewWithTag(1) as! UIImageView
-        videoImageView.sd_setImage(with: URL.init(string: (videoDetails["imageUrl"] as? String)!), completed: nil)
         return cell
     }
     
-    func getTopVideosFromYoutube() {
-        
-        APIFetcher().getTopVideos("", false) { (videosArray, succses, nextpageToken) in
-            if succses == true {
-                print(videosArray)
-                self.arrVideos.addObjects(from: videosArray)
-                self.youtubeCollectionView.reloadData()
-            }
-        }
-        
-    }
     
     func configureSearchController() {
         // Initialize and perform a minimum configuration to the search controller.
@@ -105,7 +92,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             return
         }else if searchText.characters.count > 1 {
             self.arrVideos.removeAllObjects()
-            self.searchYouttubeVideoData(searchText: searchText)
+//            self.searchYouttubeVideoData(searchText: searchText)
         }else{
             self.arrVideos.removeAllObjects()
             self.youtubeCollectionView.reloadData()
@@ -113,20 +100,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
     }
     
-    func searchYouttubeVideoData(searchText:String) -> Void {
-        
-        APIFetcher().getVideoWithTextSearch(searchText, "", completion: { (videosArray, succses, nextpageToken) in
-            if(succses == true){
-                self.arrVideos.addObjects(from: videosArray)
-                if(self.arrVideos.count ==  0){
-                    
-                }else{
-                    self.youtubeCollectionView.reloadData()
-                }
-            }
-        })
-        
-    }
+//    func searchYouttubeVideoData(searchText:String) -> Void {
+//
+//        APIFetcher().getVideoWithTextSearch(searchText, "", completion: { (videosArray, succses, nextpageToken) in
+//            if(succses == true){
+//                self.arrVideos.addObjects(from: videosArray)
+//                if(self.arrVideos.count ==  0){
+//
+//                }else{
+//                    self.youtubeCollectionView.reloadData()
+//                }
+//            }
+//        })
+//
+//    }
 
 
 }
